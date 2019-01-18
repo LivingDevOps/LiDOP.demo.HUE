@@ -1,0 +1,9 @@
+{
+  "name": "node-red-project",
+  "description": "A Node-RED Project",
+  "version": "0.0.1",
+  "dependencies": {
+    "node-red-contrib-credentials": "*",
+    "node-red-contrib-huemagic": "*"
+  }
+}

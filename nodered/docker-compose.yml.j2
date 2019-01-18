@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  
+  server:
+    image: noderedata:latest
+    restart: always
+    volumes:
+      - /var/lidop/hue/nodered/:/data/
+    ports: 
+      - "1880:1880"

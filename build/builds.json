@@ -1,0 +1,45 @@
+{ 
+    "Create_Environment":
+    {
+        "Script": "./build/Environment.Create.Jenkinsfile",
+        "Parameters": [
+            {
+                "Name":"NodeRedLocation",
+                "Type":"Choice",
+                "Default": "local",
+                "Choices": ["local", "remote"]
+            },
+            {
+                "Name":"RemoteFolder",
+                "Type":"String",
+                "Default": "c:/temp/oop/NodeRed or /tmp/oop/NodeRed"
+            },
+            {
+                "Name":"HueBridgeIp",
+                "Type":"String",
+                "Default": "192.168.200.20"
+            },
+            {
+                "Name":"HueDimmerId",
+                "Type":"String",
+                "Default": ""
+            },
+            {
+                "Name":"HueLightId",
+                "Type":"String",
+                "Default": ""
+            }
+        ]
+    },
+    
+    "Destroy_Environment":
+    {
+        "Script": "./build/Environment.Destroy.Jenkinsfile"
+    },
+    
+    "Build_Application":
+    {
+        "Script": "./build/App.Jenkinsfile",
+        "TriggerOnPush" : true
+    }
+}

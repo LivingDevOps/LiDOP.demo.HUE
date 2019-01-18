@@ -1,0 +1,17 @@
+---
+
+- name: HUE
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: build docker image
+      command: docker build -t noderedata:latest .
+      args:
+        chdir: /var/lidop/hue/image/
+      when: state == "present"
+          
+    - name: "Set Container to {{ state }}"
+      docker_service:
+        project_src: .  
+        state: "{{ state }}"

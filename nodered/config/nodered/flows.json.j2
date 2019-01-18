@@ -1,0 +1,324 @@
+[{
+	"id": "b69f14bf.d211c8",
+	"type": "tab",
+	"label": "Light",
+	"disabled": false,
+	"info": ""
+}, {
+	"id": "44d2c7e1.88a238",
+	"type": "tab",
+	"label": "Dimmer Switch",
+	"disabled": false,
+	"info": ""
+}, {
+	"id": "4889d1ef.76ab8",
+	"type": "hue-bridge",
+	"z": "",
+	"name": "Philips hue",
+	"bridge": "{{ bridgeIp }}",
+	"key": "qGTrFkN0HVyLIKZgQwYBFJgmFqxJM0QOpRtotR8e",
+	"interval": "3000"
+}, {
+	"id": "2926dcca.0b68d4",
+	"type": "tls-config",
+	"z": "",
+	"name": "",
+	"cert": "",
+	"key": "",
+	"ca": "",
+	"certname": "",
+	"keyname": "",
+	"caname": "",
+	"servername": "",
+	"verifyservercert": false
+}, {
+	"id": "7f40204c.e35fb",
+	"type": "tls-config",
+	"z": "",
+	"name": "",
+	"cert": "",
+	"key": "",
+	"ca": "",
+	"certname": "",
+	"keyname": "",
+	"caname": "",
+	"servername": "",
+	"verifyservercert": false
+}, {
+	"id": "1ae83909.fc7d17",
+	"type": "inject",
+	"z": "b69f14bf.d211c8",
+	"name": "",
+	"topic": "",
+	"payload": "{\"alert\":1}",
+	"payloadType": "json",
+	"repeat": "",
+	"crontab": "",
+	"once": true,
+	"onceDelay": 0.1,
+	"x": 129.5,
+	"y": 207,
+	"wires": [
+		["3a475124.97a1ce"]
+	]
+}, {
+	"id": "3a475124.97a1ce",
+	"type": "hue-light",
+	"z": "b69f14bf.d211c8",
+	"name": "Hue go",
+	"bridge": "4889d1ef.76ab8",
+	"lightid": "{{ lightId }}",
+	"colornamer": true,
+	"x": 922.5,
+	"y": 365,
+	"wires": [
+		[]
+	]
+}, {
+	"id": "66734a62.1ea0d4",
+	"type": "inject",
+	"z": "b69f14bf.d211c8",
+	"name": "",
+	"topic": "",
+	"payload": "{\"on\":false}",
+	"payloadType": "json",
+	"repeat": "",
+	"crontab": "",
+	"once": true,
+	"onceDelay": "3",
+	"x": 138.5,
+	"y": 277,
+	"wires": [
+		["3a475124.97a1ce"]
+	]
+}, {
+	"id": "84feec9a.8e463",
+	"type": "http in",
+	"z": "b69f14bf.d211c8",
+	"name": "",
+	"url": "/jenkins/:status",
+	"method": "get",
+	"upload": false,
+	"swaggerDoc": "",
+	"x": 133.5,
+	"y": 397,
+	"wires": [
+		["5ba2ee0b.2fab8", "34acf7f0.8bd428"]
+	]
+}, {
+	"id": "5ba2ee0b.2fab8",
+	"type": "http response",
+	"z": "b69f14bf.d211c8",
+	"name": "",
+	"statusCode": "",
+	"headers": {},
+	"x": 340.5,
+	"y": 346,
+	"wires": []
+}, {
+	"id": "34acf7f0.8bd428",
+	"type": "switch",
+	"z": "b69f14bf.d211c8",
+	"name": "",
+	"property": "req.params.status",
+	"propertyType": "msg",
+	"rules": [{
+		"t": "eq",
+		"v": "success",
+		"vt": "str"
+	}, {
+		"t": "eq",
+		"v": "failed",
+		"vt": "str"
+	}],
+	"checkall": "true",
+	"repair": false,
+	"outputs": 2,
+	"x": 340.5,
+	"y": 445,
+	"wires": [
+		["aca44150.53276"],
+		["256c0a66.a311d6"]
+	],
+	"outputLabels": ["s", "f"]
+}, {
+	"id": "aca44150.53276",
+	"type": "trigger",
+	"z": "b69f14bf.d211c8",
+	"op1": "{\"on\":true,\"brightness\":100, \"rgb\":[0,255,0]}",
+	"op2": "{\"on\":false,\"brightness\":0}",
+	"op1type": "json",
+	"op2type": "json",
+	"duration": "5",
+	"extend": false,
+	"units": "s",
+	"reset": "",
+	"bytopic": "all",
+	"name": "Green",
+	"x": 513.5,
+	"y": 378,
+	"wires": [
+		["3a475124.97a1ce"]
+	]
+}, {
+	"id": "30d4de61.d9d0d2",
+	"type": "http request",
+	"z": "44d2c7e1.88a238",
+	"name": "",
+	"method": "GET",
+	"ret": "txt",
+	"url": "",
+	"tls": "2926dcca.0b68d4",
+	"x": 625,
+	"y": 167,
+	"wires": [
+		["ab0d6c83.a868e"]
+	]
+}, {
+	"id": "ab0d6c83.a868e",
+	"type": "xml",
+	"z": "44d2c7e1.88a238",
+	"name": "",
+	"property": "payload",
+	"attr": "",
+	"chr": "",
+	"x": 722,
+	"y": 227,
+	"wires": [
+		["1f5c8d8b.76fed2"]
+	]
+}, {
+	"id": "8ee5f7a5.425268",
+	"type": "http request",
+	"z": "44d2c7e1.88a238",
+	"name": "",
+	"method": "GET",
+	"ret": "txt",
+	"url": "",
+	"tls": "7f40204c.e35fb",
+	"x": 1040,
+	"y": 160,
+	"wires": [
+		[]
+	]
+}, {
+	"id": "1f5c8d8b.76fed2",
+	"type": "function",
+	"z": "44d2c7e1.88a238",
+	"name": "set request",
+	"func": "msg.headers = {};\nmsg.headers['Jenkins-Crumb'] = msg.payload.defaultCrumbIssuer.crumb[0]\nreturn msg;\n",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 830,
+	"y": 164,
+	"wires": [
+		["28145d6.8a066a2"]
+	],
+	"inputLabels": ["input"]
+}, {
+	"id": "3604cd3a.ab5322",
+	"type": "change",
+	"z": "44d2c7e1.88a238",
+	"name": "",
+	"rules": [{
+		"t": "set",
+		"p": "url",
+		"pt": "msg",
+		"to": "$replace(msg.jenkins_url, \"//\", \"//\" & msg.credential & \"@\") & \"/crumbIssuer/api/xml\"\t",
+		"tot": "jsonata"
+	}],
+	"action": "",
+	"property": "",
+	"from": "",
+	"to": "",
+	"reg": false,
+	"x": 535,
+	"y": 221,
+	"wires": [
+		["30d4de61.d9d0d2"]
+	]
+}, {
+	"id": "28145d6.8a066a2",
+	"type": "change",
+	"z": "44d2c7e1.88a238",
+	"name": "",
+	"rules": [{
+		"t": "set",
+		"p": "url",
+		"pt": "msg",
+		"to": "$replace(msg.jenkins_url, \"//\", \"//\" & msg.credential & \"@\") & \"generic-webhook-trigger/invoke?token=\" & $split(msg.project_name, \"/\")[0] & \"&cause=\" & msg.reason\t",
+		"tot": "jsonata"
+	}],
+	"action": "",
+	"property": "",
+	"from": "",
+	"to": "",
+	"reg": false,
+	"x": 915,
+	"y": 225,
+	"wires": [
+		["8ee5f7a5.425268"]
+	]
+}, {
+	"id": "34ca1cc8.dc9734",
+	"type": "inject",
+	"z": "44d2c7e1.88a238",
+	"name": "",
+	"topic": "",
+	"payload": "",
+	"payloadType": "date",
+	"repeat": "",
+	"crontab": "",
+	"once": false,
+	"onceDelay": 0.1,
+	"x": 105.5,
+	"y": 298,
+	"wires": [
+		["87db2861.4da338"]
+	]
+}, {
+	"id": "f926d4cb.3b7a08",
+	"type": "credentials",
+	"z": "44d2c7e1.88a238",
+	"name": "credentials",
+	"props": [{
+		"value": "credential",
+		"type": "msg"
+	},{
+		"value": "jenkins_url",
+		"type": "msg"
+	},{
+		"value": "project_name",
+		"type": "msg"
+	}],
+	"x": 432,
+	"y": 171,
+	"wires": [
+		["3604cd3a.ab5322"]
+	]
+}, {
+	"id": "b1377805.b90928",
+	"type": "hue-switch",
+	"z": "44d2c7e1.88a238",
+	"name": "Dimmer",
+	"bridge": "4889d1ef.76ab8",
+	"sensorid": "{{ dimmerId }}",
+	"x": 96,
+	"y": 67,
+	"wires": [
+		["87db2861.4da338"]
+	]
+}, {
+	"id": "87db2861.4da338",
+	"type": "function",
+	"z": "44d2c7e1.88a238",
+	"name": "Settings",
+	"func": "msg.reason=msg.payload.name\nreturn msg;",
+	"outputs": 1,
+	"noerr": 0,
+	"x": 236.5,
+	"y": 170,
+	"wires": [
+		["f926d4cb.3b7a08"]
+	]
+}]
